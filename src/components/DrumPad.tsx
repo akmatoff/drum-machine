@@ -1,11 +1,8 @@
 import { useRef } from "react";
 
-interface IAudio {
-  src: string;
-  id: string;
-}
+import { IDrumPad } from "./types/types";
 
-export default function DrumPad({ src, id }: IAudio) {
+export default function DrumPad({ src, id }: IDrumPad) {
   const audioElement = useRef<HTMLAudioElement>(null);
 
   const playAudio = () => {
