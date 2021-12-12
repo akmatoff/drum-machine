@@ -9,6 +9,10 @@ export default function DrumPad({
   updateDrumPadsState,
 }: IDrumPadComponent) {
   const audioElement = useRef<HTMLAudioElement>(null);
+  const clickedRef = useRef(clicked);
+  const drumPadStyle = {
+    backgroundColor: clicked ? "#eec643" : "#434246",
+  };
 
   const playAudio = () => {
     null !== audioElement.current && audioElement.current.play();
@@ -17,11 +21,20 @@ export default function DrumPad({
   useEffect(() => {
     clicked && playAudio();
 
-    updateDrumPadsState({ id: id, src: src, clicked: clicked } as IDrumPad);
+    const clickTimeout = setTimeout(() => (clickedRef.current = false), 50);
+
+    return () => clearTimeout(clickTimeout);
   }, [clicked, updateDrumPadsState, id, src]);
 
   return (
-    <div className="drum-pad" onClick={() => (clicked = true)}>
+    <div
+      style={drumPadStyle}
+      className="drum-pad"
+      onClick={() => {
+        clicked = true;
+        updateDrumPadsState({ id: id, src: src, clicked: clicked } as IDrumPad);
+      }}
+    >
       {id}
       <audio id={id} src={src} ref={audioElement} autoPlay={false} />
     </div>
