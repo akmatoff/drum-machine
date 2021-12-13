@@ -1,5 +1,4 @@
 #drum-machine {
-  background-color: var(--primary-color);
   width: clamp(400px, 50vw, 850px);
   min-height: clamp(300px, 50vw, 500px);
   padding: 30px;
@@ -7,10 +6,16 @@
 }
 
 #display {
-  width: 100%;
+  width: 400px;
   height: 80px;
   background-color: var(--accent-color);
   border-radius: 10px;
+  padding: 20px;
+  justify-content: flex-start;
+  font-weight: bold;
+  text-transform: uppercase;
+  align-items: center;
+  color: var(--primary-color);
 }
 
 #drum-pad-container {

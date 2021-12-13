@@ -13,7 +13,7 @@ function App() {
       let drumPadsCopy: IDrumPad[] = [...prevDrumPads];
 
       drumPadsCopy.map((dp) => {
-        if (dp["id"].toLowerCase() === e.key) {
+        if (dp["id"] === e.key.toUpperCase()) {
           dp["clicked"] = true;
         }
 
@@ -100,9 +100,9 @@ const pads: IDrumPad[] = [
     clicked: false,
   },
   {
-    src: "/audio/Cymatics - Chimpanzee Bass 1 - D#.wav",
+    src: "/audio/Cymatics - Killer Growl - G.wav",
     id: "Z",
-    title: "Bass 3 - D#",
+    title: "Bass 3 - G",
     clicked: false,
   },
   {

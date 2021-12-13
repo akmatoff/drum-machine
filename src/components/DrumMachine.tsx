@@ -7,8 +7,10 @@ export default function DrumMachine({
   updateDrumPadsState,
 }: IDrumMachine) {
   return (
-    <div id="drum-machine flex-row centered">
-      <div id="display"></div>
+    <div id="drum-machine" className="flex-column centered">
+      <div id="display" className="flex-row">
+        {drumPads.map((dp) => dp["clicked"] === true && dp["title"] + " ")}
+      </div>
       <div id="drum-pad-container">
         {drumPads.map((dp) => {
           return (

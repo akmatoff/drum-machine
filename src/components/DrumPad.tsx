@@ -11,7 +11,7 @@ export default function DrumPad({
   const audioElement = useRef<HTMLAudioElement>(null);
   const [clickedState, setClickedState] = useState(clicked);
   const drumPadStyle = {
-    backgroundColor: clickedState ? "#eec643" : "#434246",
+    backgroundColor: clicked ? "#eec643" : "#434246",
   };
 
   const playAudio = () => {
@@ -19,14 +19,19 @@ export default function DrumPad({
   };
 
   useEffect(() => {
-    clickedState && playAudio();
-
-    clicked && setClickedState(clicked);
+    clicked && playAudio();
 
     const clickTimeout = setTimeout(() => {
       setClickedState(false);
       updateDrumPadsState({ id: id, src: src, clicked: false });
     }, 50);
+
+    clickedState &&
+      updateDrumPadsState({
+        id: id,
+        src: src,
+        clicked: clickedState,
+      } as IDrumPad);
 
     return () => clearTimeout(clickTimeout);
   }, [clicked, clickedState, updateDrumPadsState, id, src]);
@@ -35,17 +40,17 @@ export default function DrumPad({
     <div
       style={drumPadStyle}
       className="drum-pad"
-      onClick={() => {
-        setClickedState(true);
-        updateDrumPadsState({
-          id: id,
-          src: src,
-          clicked: clickedState,
-        } as IDrumPad);
-      }}
+      id={id}
+      onClick={() => setClickedState(true)}
     >
       {id}
-      <audio id={id} src={src} ref={audioElement} autoPlay={false} />
+      <audio
+        className="clip"
+        id={id}
+        src={src}
+        ref={audioElement}
+        autoPlay={false}
+      />
     </div>
   );
 }
