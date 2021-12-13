@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 
 import { IDrumPad, IDrumPadComponent } from "./types/types";
 
@@ -9,30 +9,39 @@ export default function DrumPad({
   updateDrumPadsState,
 }: IDrumPadComponent) {
   const audioElement = useRef<HTMLAudioElement>(null);
-  const clickedRef = useRef(clicked);
+  const [clickedState, setClickedState] = useState(clicked);
   const drumPadStyle = {
-    backgroundColor: clicked ? "#eec643" : "#434246",
+    backgroundColor: clickedState ? "#eec643" : "#434246",
   };
 
   const playAudio = () => {
-    null !== audioElement.current && audioElement.current.play();
+    audioElement.current?.play();
   };
 
   useEffect(() => {
-    clicked && playAudio();
+    clickedState && playAudio();
 
-    const clickTimeout = setTimeout(() => (clickedRef.current = false), 50);
+    clicked && setClickedState(clicked);
+
+    const clickTimeout = setTimeout(() => {
+      setClickedState(false);
+      updateDrumPadsState({ id: id, src: src, clicked: false });
+    }, 50);
 
     return () => clearTimeout(clickTimeout);
-  }, [clicked, updateDrumPadsState, id, src]);
+  }, [clicked, clickedState, updateDrumPadsState, id, src]);
 
   return (
     <div
       style={drumPadStyle}
       className="drum-pad"
       onClick={() => {
-        clicked = true;
-        updateDrumPadsState({ id: id, src: src, clicked: clicked } as IDrumPad);
+        setClickedState(true);
+        updateDrumPadsState({
+          id: id,
+          src: src,
+          clicked: clickedState,
+        } as IDrumPad);
       }}
     >
       {id}

@@ -24,19 +24,6 @@ function App() {
     });
   }, []);
 
-  const keyUp = useCallback((e: KeyboardEvent) => {
-    setDrumPads((prevDrumPads) => {
-      let drumPadsCopy: IDrumPad[] = [...prevDrumPads];
-
-      drumPadsCopy.map((dp) => {
-        if (dp["id"].toLowerCase() === e.key) dp["clicked"] = false;
-        return dp;
-      });
-
-      return drumPadsCopy;
-    });
-  }, []);
-
   const updateDrumPadsState = useCallback((drumPad: IDrumPad) => {
     console.log("updating");
     setDrumPads((prevDrumPads) => {
@@ -53,15 +40,13 @@ function App() {
 
   useEffect(() => {
     window.addEventListener("keydown", keyDown);
-    window.addEventListener("keyup", keyUp);
 
     setDrumPads(pads);
 
     return () => {
       window.removeEventListener("keydown", keyDown);
-      window.removeEventListener("keyup", keyUp);
     };
-  }, [drumPads, keyDown, keyUp, updateDrumPadsState]);
+  }, [drumPads, keyDown, updateDrumPadsState]);
 
   return (
     <div className="App">
